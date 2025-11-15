@@ -1,0 +1,145 @@
+package TestNg;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.annotations.Test;
+
+public class scrollBar {
+  @Test
+  public void f() {
+	 WebDriver wd=new ChromeDriver();
+	 wd.get("https://practice.expandtesting.com/login");
+	 //WebElement li=wd.findElement(By.xpath(""))
+	 JavascriptExecutor js=(JavascriptExecutor)wd;
+	 js.executeScript("arguments[0].scrollIntoView(true);",wd);
+  }
+}
+*******************
+package TestNg;
+
+import org.testng.annotations.Test;
+
+import java.time.Duration;
+import java.util.List;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.annotations.DataProvider;
+
+public class dataProvider {
+  @Test(dataProvider = "dp")
+  public void f(String n, String s) {
+	  WebDriver wd=new ChromeDriver();
+	  wd.get("https://practicetestautomation.com/practice-test-login/");
+	  wd.manage().window().maximize();
+	  wd.manage().timeouts().implicitlyWait(Duration.ofSeconds(1));//is set for all
+	  //(through the script applied to all)
+	  wd.findElement(By.id("username")).sendKeys(n);
+	  wd.findElement(By.id("password")).sendKeys(s);
+	 List<WebElement>e1= wd.findElements(By.tagName("input"));
+	 List<WebElement>e2= wd.findElements(By.tagName("a"));
+	 System.out.println("input elements: "+e1.size());
+	 System.out.println("no of text boxes i.e a are: "+e2.size());
+	/* for (WebElement webElement : e2) {
+		System.out.println(webElement.getText());
+	} */
+	 for(WebElement p:e1) {
+		 System.out.println(p.getTagName());
+	 }
+  }
+
+  @DataProvider
+  public Object[][] dp() {
+    return new Object[][] {
+      new Object[] { "abcd", "wedr" },
+     // new Object[] { "pqrs", "lmno" },
+    };
+  }
+}
+************************
+url=https://practicetestautomation.com/practice-test-login/
+un=student
+pass=Password@123
+***************************
+package TestNg;
+
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Properties;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.annotations.Test;
+
+public class demoProperty {
+  @Test
+  public void f() throws IOException {
+	  
+	  WebDriver d=new ChromeDriver();
+	  d.manage().window().maximize();
+	  
+	  
+	  Properties p=new Properties();
+	  FileReader fr=new FileReader("D:\\sdm\\FirstJava\\src\\input.properties");
+	  
+	  p.load(fr);
+	  
+	  d.get(p.getProperty("url"));
+	  
+	  WebElement name=d.findElement(By.id("username"));
+	  WebElement pass=d.findElement(By.id("password"));
+	
+	  name.sendKeys(p.getProperty("un"));
+	  pass.sendKeys(p.getProperty("pass"));
+	 
+  }
+}
+****************************
+package TestNg;
+
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Properties;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.annotations.Test;
+
+public class openingBrowser {
+    @Test
+    public void f() throws IOException {
+        // 1. Initialize the WebDriver
+        WebDriver d = new ChromeDriver();
+        d.manage().window().maximize();
+
+        // 2. Initialize Properties object and FileReader
+        Properties p = new Properties();
+        FileReader fr = new FileReader("D:\\sdm\\FirstJava\\src\\input.properties");
+        
+        // 3. Load the properties from the file
+        p.load(fr);
+
+        // 4. Navigate to the URL from the properties file
+        d.get(p.getProperty("url"));
+
+        // 5. NOW, find the WebElements on the loaded page
+        WebElement name = d.findElement(By.id("username"));
+        WebElement pass = d.findElement(By.id("password"));
+
+        // 6. Use the retrieved properties to interact with the elements
+        name.sendKeys(p.getProperty("un"));
+        pass.sendKeys(p.getProperty("pass"));
+        
+        // Optional: Close the browser after the test is complete
+        // d.quit(); 
+    }
+}
